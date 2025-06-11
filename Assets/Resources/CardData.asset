@@ -15,7 +15,6 @@ MonoBehaviour:
   faceImages:
   - {fileID: 21300000, guid: 107cf2fd718e01e42bd665ab456d7d83, type: 3}
   - {fileID: 21300000, guid: 2163fc766e1809b4c976ca64dd41cfe5, type: 3}
-  - {fileID: 21300000, guid: 2163fc766e1809b4c976ca64dd41cfe5, type: 3}
   - {fileID: 21300000, guid: c94e94d61431afd46a15e08883bb5428, type: 3}
   - {fileID: 21300000, guid: 1241abad9025c6648a53b7e39221743c, type: 3}
   - {fileID: 21300000, guid: b726bfa48e1109b498fcc97ec0790450, type: 3}
