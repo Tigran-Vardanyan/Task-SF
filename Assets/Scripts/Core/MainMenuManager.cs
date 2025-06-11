@@ -7,27 +7,24 @@ using TMPro; // For TextMeshPro UI elements
 public class MainMenuManager : MonoBehaviour
 {
     // === UI References ===
-    [Header("UI References")]
-    public Button startGame;       // Button to start a new game
-    public Button loadGame;        // Button to open load game panel
-    public Button quitGame;        // Button to quit the game
+    [Header("UI References")] public Button startGame; // Button to start a new game
+    public Button loadGame; // Button to open load game panel
+    public Button quitGame; // Button to quit the game
 
     // === Load Panel UI Elements ===
-    [Header("Main Menu Load Panel")]
-    public GameObject loadGamePanel;         // Load panel GameObject (initially hidden)
-    public Transform loadContentParent;      // Parent transform (Content area of ScrollView) for save entries
-    public GameObject saveGameEntryPrefab;   // Prefab for a single save entry UI element
-    public Button loadSelectedButton;        // Button to confirm loading selected save
-    public Button cancelLoadButton;          // Button to cancel/hide load panel
-    public TextMeshProUGUI noSaveFilesText;  // Text shown when no saves exist
-    
-    [Header("Board Size Panel")]
-    public GameObject boardSizePanel;       
-    public Transform boardSizeButtonParent; 
+    [Header("Main Menu Load Panel")] public GameObject loadGamePanel; // Load panel GameObject (initially hidden)
+    public Transform loadContentParent; // Parent transform (Content area of ScrollView) for save entries
+    public GameObject saveGameEntryPrefab; // Prefab for a single save entry UI element
+    public Button loadSelectedButton; // Button to confirm loading selected save
+    public Button cancelLoadButton; // Button to cancel/hide load panel
+    public TextMeshProUGUI noSaveFilesText; // Text shown when no saves exist
+
+    [Header("Board Size Panel")] public GameObject boardSizePanel;
+    public Transform boardSizeButtonParent;
     public GameObject boardSizeButtonPrefab;
 
     // === Internal state ===
-    private string selectedLoadFileName = "";              // Currently selected save file name
+    private string selectedLoadFileName = ""; // Currently selected save file name
     private List<SaveGameEntry> currentLoadEntries = new List<SaveGameEntry>(); // Active save entry UI instances
 
     // Called once when the script instance is being loaded
@@ -67,21 +64,22 @@ public class MainMenuManager : MonoBehaviour
         boardSizePanel?.SetActive(true);
         GenerateBoardSizeButtons();
     }
+
     private void GenerateBoardSizeButtons()
     {
-       
+
         foreach (Transform child in boardSizeButtonParent)
         {
             Destroy(child.gameObject);
         }
 
-       
+
         for (int cols = 2; cols <= 5; cols++)
         {
             for (int rows = 2; rows <= 6; rows++)
             {
                 int totalCards = cols * rows;
-                if (totalCards % 2 != 0) continue; 
+                if (totalCards % 2 != 0) continue;
 
                 GameObject buttonObj = Instantiate(boardSizeButtonPrefab, boardSizeButtonParent);
                 Button btn = buttonObj.GetComponent<Button>();
@@ -96,6 +94,7 @@ public class MainMenuManager : MonoBehaviour
             }
         }
     }
+
     private void OnBoardSizeSelected(Vector2Int size)
     {
         Debug.Log($"Selected board size: {size.x} x {size.y}");
@@ -128,6 +127,7 @@ public class MainMenuManager : MonoBehaviour
             if (entry != null && entry.gameObject != null)
                 Destroy(entry.gameObject);
         }
+
         currentLoadEntries.Clear();
 
         selectedLoadFileName = ""; // Clear any previous selection
@@ -144,6 +144,7 @@ public class MainMenuManager : MonoBehaviour
             if (entry != null && entry.gameObject != null)
                 Destroy(entry.gameObject);
         }
+
         currentLoadEntries.Clear();
         selectedLoadFileName = "";
         loadSelectedButton.interactable = false;
@@ -209,6 +210,7 @@ public class MainMenuManager : MonoBehaviour
         {
             entry.SetSelected(entry.FileName == fileName);
         }
+
         Debug.Log($"Selected save file: {fileName}");
     }
 

@@ -73,7 +73,8 @@ public class Card : MonoBehaviour
     /// </summary>
     public void SetCardType(int newTypeId, Sprite newFrontSprite)
     {
-        Debug.Log($"Card {gameObject.name} at sibling index {transform.GetSiblingIndex()}: Changing type from {id} to {newTypeId}");
+        Debug.Log(
+            $"Card {gameObject.name} at sibling index {transform.GetSiblingIndex()}: Changing type from {id} to {newTypeId}");
         id = newTypeId;
         if (frontRenderer != null)
         {
@@ -159,6 +160,7 @@ public class Card : MonoBehaviour
         {
             Debug.LogWarning($"Animator missing on {gameObject.name} in FlipFrontImmediate()!");
         }
+
         IsFullyFlipped = true;
     }
 
@@ -175,6 +177,7 @@ public class Card : MonoBehaviour
         {
             Debug.LogWarning($"Animator missing on {gameObject.name} in FlipBackImmediate()!");
         }
+
         IsFullyFlipped = false;
     }
 
@@ -211,13 +214,13 @@ public class Card : MonoBehaviour
         }
         else
         {
-            FlipBackImmediate();  // Show face-down instantly for unmatched cards
+            FlipBackImmediate(); // Show face-down instantly for unmatched cards
         }
     }
+
     public void FlipMatchedInstant()
     {
-        animator.SetTrigger("Flip"); 
-        isMatched = true; 
+        animator.SetTrigger("Flip");
+        isMatched = true;
     }
-    
 }

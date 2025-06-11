@@ -8,8 +8,8 @@ public class CardMatcher : MonoBehaviour
     // Events for interaction locking, matches, and turn completion
     public event Action OnRequestInteractionLock;
     public event Action OnRequestInteractionUnlock;
-    public event Action<int> OnMatchFound;      // Invoked with number of matches found
-    public event Action<int> OnTurnCompleted;   // Invoked with number of turns taken
+    public event Action<int> OnMatchFound; // Invoked with number of matches found
+    public event Action<int> OnTurnCompleted; // Invoked with number of turns taken
 
     private List<Card> currentlyFlippedCards = new();
     private HashSet<Card> lockedCardsForInteraction = new();
@@ -27,7 +27,8 @@ public class CardMatcher : MonoBehaviour
     /// <summary>
     /// Initialize matcher with board size and audio clips.
     /// </summary>
-    public void Initialize(Vector2Int gridSize, AudioSource audioSource, AudioClip flip, AudioClip match, AudioClip mismatch, AudioClip gameOver,GameManager gameManager)
+    public void Initialize(Vector2Int gridSize, AudioSource audioSource, AudioClip flip, AudioClip match,
+        AudioClip mismatch, AudioClip gameOver, GameManager gameManager)
     {
         this.audioSource = audioSource;
         _gameManager = gameManager;

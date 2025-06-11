@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class BoardFitter : MonoBehaviour
 {
-    [SerializeField] private Transform boardTransform;   // Transform of the board to fit
+    [SerializeField] private Transform boardTransform; // Transform of the board to fit
     [SerializeField] private BoxCollider boardCollider; // Collider used to define the board's bounds
 
     /// <summary>

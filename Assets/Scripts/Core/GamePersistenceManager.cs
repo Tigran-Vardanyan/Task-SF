@@ -39,6 +39,7 @@ public static class GamePersistenceManager
             Debug.LogError("Save filename cannot be empty or null.");
             return null;
         }
+
         // Replace invalid filename characters with underscores
         string sanitizedFileName = string.Join("_", fileName.Split(Path.GetInvalidFileNameChars()));
         return Path.Combine(saveDirectoryPath, sanitizedFileName + SAVE_FILE_EXTENSION);
@@ -138,12 +139,14 @@ public static class GamePersistenceManager
                 string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(filePath);
                 fileNames.Add(fileNameWithoutExtension);
             }
+
             fileNames.Sort();
         }
         catch (Exception e)
         {
             Debug.LogError($"Failed to get save files: {e.Message}");
         }
+
         return fileNames;
     }
 
@@ -163,7 +166,8 @@ public static class GamePersistenceManager
     /// <returns>True if at least one save file exists</returns>
     public static bool HasAnySaveGames()
     {
-        return Directory.Exists(saveDirectoryPath) && Directory.GetFiles(saveDirectoryPath, "*" + SAVE_FILE_EXTENSION).Length > 0;
+        return Directory.Exists(saveDirectoryPath) &&
+               Directory.GetFiles(saveDirectoryPath, "*" + SAVE_FILE_EXTENSION).Length > 0;
     }
 
     /// <summary>
@@ -186,7 +190,7 @@ public static class GamePersistenceManager
     public class CardState
     {
         public int boardIndex; // Position or identifier of card on the board
-        public int typeId;     // Card type or image ID
+        public int typeId; // Card type or image ID
         public bool isMatched; // Whether the card has been matched
 
         public CardState(int boardIndex, int typeId, bool isMatched)

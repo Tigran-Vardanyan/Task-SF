@@ -8,31 +8,26 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    [Header("References")]
-    public BoardFitter boardFitter;
+    [Header("References")] public BoardFitter boardFitter;
     public CardSpawner cardSpawner;
     public CardMatcher cardMatcher;
     public Animator animatorHUD;
     public SaveLoadUIManager uiManager;
 
-    [Header("Settings")]
-    public Vector2Int gridSize = new(4, 3);
+    [Header("Settings")] public Vector2Int gridSize = new(4, 3);
     public float horizontalSpacing = 0.01f;
     public float verticalSpacing = 0.05f;
     public GameObject cardPrefab;
     public CardData cardData;
     public bool fitToCamera = true;
 
-    [Header("Audio")]
-    public AudioClip flipClip, matchClip, mismatchClip, gameOverClip;
+    [Header("Audio")] public AudioClip flipClip, matchClip, mismatchClip, gameOverClip;
     public AudioSource audioSource;
 
-    [Header("Scoring")]
-    public TextMeshProUGUI matchesText;
+    [Header("Scoring")] public TextMeshProUGUI matchesText;
     public TextMeshProUGUI turnsText;
 
-    [Header("Buttons")]
-    public Button restartButton;
+    [Header("Buttons")] public Button restartButton;
     public Button loadGameButton;
     public Button saveGameButton;
     public Button backToMenuButton;
@@ -81,14 +76,14 @@ public class GameManager : MonoBehaviour
     {
         if (fitToCamera)
             boardFitter.FitToCamera();
-        
-        int savedCols = PlayerPrefs.GetInt("GridColumns", gridSize.x); 
+
+        int savedCols = PlayerPrefs.GetInt("GridColumns", gridSize.x);
         int savedRows = PlayerPrefs.GetInt("GridRows", gridSize.y);
         gridSize = new Vector2Int(savedCols, savedRows);
 
         cardSpawner.Initialize(gridSize, horizontalSpacing, verticalSpacing, cardPrefab, cardData);
 
-        cardMatcher.Initialize(gridSize, audioSource, flipClip, matchClip, mismatchClip, gameOverClip,this);
+        cardMatcher.Initialize(gridSize, audioSource, flipClip, matchClip, mismatchClip, gameOverClip, this);
         cardMatcher.OnRequestInteractionLock += LockGlobalInteraction;
         cardMatcher.OnRequestInteractionUnlock += UnlockGlobalInteraction;
         cardMatcher.OnMatchFound += UpdateMatchesDisplay;
@@ -126,7 +121,7 @@ public class GameManager : MonoBehaviour
     private void LockGlobalInteraction()
     {
         globalInteractionLock = true;
-       
+
         Debug.Log("Global Interaction Locked (e.g., during game over or intro)");
     }
 
@@ -144,6 +139,7 @@ public class GameManager : MonoBehaviour
             Debug.Log($"GameManager: Cannot flip card {card.id} due to global lock.");
             return;
         }
+
         cardMatcher.HandleCardFlipped(card);
     }
 
@@ -180,7 +176,7 @@ public class GameManager : MonoBehaviour
     }
 
     // Save the current game state to a file
-   
+
     public void SaveCurrentGame(string saveFileName)
     {
         GamePersistenceManager.GameState gameState = new GamePersistenceManager.GameState();
@@ -195,7 +191,7 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < boardTransform.childCount; i++)
         {
-            Card card =  boardTransform.GetChild(i).GetComponent<Card>();
+            Card card = boardTransform.GetChild(i).GetComponent<Card>();
             gameState.cardStates.Add(new GamePersistenceManager.CardState(i, card.id, card.isMatched));
         }
 
@@ -216,6 +212,7 @@ public class GameManager : MonoBehaviour
                 cardSpawner.SpawnCards();
                 StartCoroutine(ShowCardsAndUnlockInteraction());
             }
+
             return;
         }
 
@@ -225,8 +222,8 @@ public class GameManager : MonoBehaviour
 
         // Prepare saved card IDs ordered by board index for correct spawning
         List<int> savedTypeIDs = gs.cardStates.OrderBy(s => s.boardIndex)
-                                              .Select(s => s.typeId)
-                                              .ToList();
+            .Select(s => s.typeId)
+            .ToList();
         Debug.Log($"GameManager: Prepared {savedTypeIDs.Count} type IDs for spawning.");
 
         // Update grid size and spawn cards using saved data
@@ -245,6 +242,7 @@ public class GameManager : MonoBehaviour
             if (card != null)
                 spawnedCardsByIndex.Add(i, card);
         }
+
         Debug.Log($"GameManager: Retrieved {spawnedCardsByIndex.Count} newly spawned cards.");
 
         // Apply matched state to spawned cards based on saved data
@@ -253,7 +251,8 @@ public class GameManager : MonoBehaviour
             if (spawnedCardsByIndex.TryGetValue(savedCardState.boardIndex, out Card card))
                 card.SetMatched(savedCardState.isMatched);
             else
-                Debug.LogWarning($"Card at board index {savedCardState.boardIndex} not found after spawning. Possible data mismatch.");
+                Debug.LogWarning(
+                    $"Card at board index {savedCardState.boardIndex} not found after spawning. Possible data mismatch.");
         }
 
         currentMatches = gs.matchesFound;
@@ -261,7 +260,7 @@ public class GameManager : MonoBehaviour
         UpdateMatchesDisplay(currentMatches);
         UpdateTurnsDisplay(currentTurns);
 
-        cardMatcher.Initialize(gridSize, audioSource, flipClip, matchClip, mismatchClip, gameOverClip,this);
+        cardMatcher.Initialize(gridSize, audioSource, flipClip, matchClip, mismatchClip, gameOverClip, this);
 
         globalInteractionLock = false;
     }
@@ -280,7 +279,7 @@ public class GameManager : MonoBehaviour
             HUDisVisible = true;
         }
     }
-    
+
     public void BackToMainMenu()
     {
         Debug.Log("Returning to Main Menu");

@@ -13,7 +13,8 @@ public class CardSpawner : MonoBehaviour
     /// <summary>
     /// Initializes the spawner with required parameters.
     /// </summary>
-    public void Initialize(Vector2Int gridSize, float hSpacing, float vSpacing, GameObject cardPrefab, CardData cardData)
+    public void Initialize(Vector2Int gridSize, float hSpacing, float vSpacing, GameObject cardPrefab,
+        CardData cardData)
     {
         this.gridSize = gridSize;
         this.hSpacing = hSpacing;
@@ -61,6 +62,7 @@ public class CardSpawner : MonoBehaviour
             {
                 cardsToAssign.Add(new GamePersistenceManager.CardState(i, ids[i], false));
             }
+
             Debug.Log($"CardSpawner: Spawning {cardsToAssign.Count} cards with new shuffled states.");
         }
 
@@ -68,9 +70,11 @@ public class CardSpawner : MonoBehaviour
         Renderer prefabRenderer = cardPrefab.GetComponentInChildren<Renderer>();
         if (prefabRenderer == null)
         {
-            Debug.LogError("CardSpawner: Card prefab or its children must have a Renderer component to calculate size!");
+            Debug.LogError(
+                "CardSpawner: Card prefab or its children must have a Renderer component to calculate size!");
             return;
         }
+
         Vector3 baseCardSize = prefabRenderer.bounds.size;
 
         float cellWidth = (boardSize.x - hSpacing * (gridSize.x - 1)) / gridSize.x;
@@ -108,6 +112,7 @@ public class CardSpawner : MonoBehaviour
                 {
                     Debug.LogError($"CardSpawner: Card prefab '{cardPrefab.name}' is missing a 'Card' component!");
                 }
+
                 index++;
             }
         }
